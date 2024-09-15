@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:pitza_mitza/constant/params.dart';
-import 'package:pitza_mitza/constant/solid_color.dart';
+import 'package:pitza_mitza/components/app_loding.dart';
+import 'package:pitza_mitza/components/extensions.dart';
+import 'package:pitza_mitza/constants/app_dimens.dart';
+import 'package:pitza_mitza/constants/app_color.dart';
+import 'package:pitza_mitza/constants/app_strings.dart';
+import 'package:pitza_mitza/controllers/login-controller.dart';
 import 'package:pitza_mitza/gen/assets.gen.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/get_navigation.dart';
-import 'package:pitza_mitza/view/onboarding_page.dart';
+import 'package:pitza_mitza/ui/theme/app_text_theme.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,9 +19,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // TODO: implement initState
     Future.delayed(const Duration(seconds: 2))
-        .then((value) => Get.off(const OnBoardingPage()));
+        .then((value) => LoginController().login());
   }
 
   @override
@@ -35,30 +35,17 @@ class _SplashScreenState extends State<SplashScreen> {
               children: [
                 Image.asset(
                   Assets.images.logo.path,
-                  height: Params.height / 10,
+                  height: AppDimens.height / 10,
                 ),
                 Text(
-                  'پیتزا میتزا',
-                  style: Params.textTheme.displayMedium!
-                      .copyWith(color: SolidColor.primaryColor, fontSize: 24),
+                  AppString.pitzaMitza,
+                  style: AppTextTheme.displayLarge
+                      .copyWith(color: AppColor.primary),
                 )
               ],
             ),
-            const SizedBox(
-              height: 28,
-            ),
-            SpinKitThreeInOut(
-              size: Params.height / 28,
-              delay: const Duration(microseconds: 500),
-              itemBuilder: (context, item) {
-                return DecoratedBox(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: item.isEven
-                            ? SolidColor.primaryColor
-                            : SolidColor.bgColor));
-              },
-            )
+            AppDimens.veryLarge.height,
+            const AppLoding(),
           ],
         ),
       ),
